@@ -1,0 +1,2 @@
+At sign-off we freeze the layout and prove it’s functionally equivalent, manufacturable, and reliable across all modes/corners. Core gates are:
+(1) STA with SI, (2) DRC, (3) LVS(+ERC), (4) Power/IR-drop & EM/EM-via, and (5) Antenna & ESD. We extract accurate RC from the routed GDS/DEF, use MMMC with AOCV/POCV + CPPR, close setup/hold/min-PW, reach DRC=0/LVS clean (or managed waivers), pass IR/EM vs foundry limits, and clear antenna/ESD. Then we re-check after timing-aware fill and package integration.
