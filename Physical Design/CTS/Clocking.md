@@ -13,7 +13,7 @@ Clocking in a System on Chip (SoC) is a critical aspect of design, as it directl
 
 🕒 3. Clock Tree Synthesis (CTS) Complexity
  • Problem: Distributing clock to thousands of flip-flops with minimal skew and power.
- • Challenge: CTS must balance skew, latency, and insertion delay.
+ • Challenge: CTS must balance skew, and latency.
  • Mitigation: Use of H-tree or balanced tree structures, CTS-aware placement, and buffering strategies.
 
 ⚡ 4. Power-Performance Tradeoff
