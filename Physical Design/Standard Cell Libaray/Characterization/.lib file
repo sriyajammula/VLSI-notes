@@ -1,0 +1,94 @@
+1. What is a .lib file?
+ • A Liberty (.lib) file is a timing, power, and functional model of standard cells, macros, or memories.
+ • Created by library vendors (TSMC, Samsung, GF, etc.) for each process, voltage, temperature (PVT) corner.
+ • Used in synthesis, place-and-route (P&R), and Static Timing Analysis (STA) to understand the behavior of cells.
+
+⸻
+
+2. Uses of .lib file
+ • Logic synthesis (Design Compiler, Fusion Compiler): Provides timing arcs, area, and power info to choose the right cells.
+ • Static Timing Analysis (PrimeTime): Provides delay/power tables for accurate timing closure.
+ • Power analysis (PrimePower, RedHawk, Voltus): Contains leakage and dynamic power data.
+ • Formal verification / Simulation mapping: Defines Boolean function and pin direction.
+ • Multi-corner multi-mode (MCMM) analysis: Separate .lib for each PVT condition (e.g., ss_0.72V_125C, tt_0.8V_25C).
+
+⸻
+
+3. Structure / Contents of a .lib file
+
+A text-based ASCII file with hierarchical key–value format.
+Typical contents:
+
+(a) Header & Technology
+
+library (typical) {
+ delay_model : table_lookup;
+ time_unit : "1ns";
+ voltage_unit : "1V";
+ current_unit : "1mA";
+ leakage_power_unit : "1nW";
+}
+
+ • Defines units, delay model, default operating conditions, wire load models.
+
+(b) Operating Conditions
+
+operating_conditions (TT_0p8V_25C) {
+ process : 1;
+ voltage : 0.80;
+ temperature : 25;
+}
+
+ • Different .lib per PVT corner.
+
+(c) Cell Definition
+
+cell (NAND2_X1) {
+ area : 1.2;
+
+ pin (A1) {
+ direction : input;
+ capacitance : 0.002;
+ }
+
+ pin (A2) {
+ direction : input;
+ capacitance : 0.002;
+ }
+
+ pin (ZN) {
+ direction : output;
+ function : "(A1 * A2)'"; // Boolean function
+ max_capacitance : 0.05;
+
+ timing () {
+ related_pin : "A1";
+ timing_sense : negative_unate;
+ cell_rise (table_2d) { ... } // delay tables
+ cell_fall (table_2d) { ... }
+ rise_transition (table_2d) { ... }
+ fall_transition (table_2d) { ... }
+ }
+ }
+}
+
+• Pins: input/output, capacitance, function.
+ • Timing arcs: defines delay as function of input transition & output load.
+ • Power tables: dynamic power (toggle-dependent), leakage power.
+
+⸻
+
+(d) Special Info
+ • Leakage power per input vector.
+ • Internal power (switching within cell).
+ • Constraint arcs (setup, hold, recovery, removal).
+ • Test/scan info for DFT.
+ • Library groups for MCMM (slow, fast, low-power variants).
+
+⸻
+
+4. Summary
+ • Format: Text-based, hierarchical (Liberty syntax).
+ • Use: Input to synthesis, STA, power analysis.
+ • Contents: Technology defs → operating conditions → cells → pins → timing/power arcs.
+ • Key role: Provides timing, power, area, and functional behavior of every standard cell.
