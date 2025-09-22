@@ -32,7 +32,7 @@ Clocking in a System on Chip (SoC) is a critical aspect of design, as it directl
  • Mitigation: Clock bridges, configurable clock muxes, and standard interface protocols.
 
 🔄 7. Clock Source Management
- • PLL/DLL Variability: Adds complexity and tuning needs.
+ • PLL (Phase Locked Loop - generates the clock) Variability: Adds complexity and tuning needs.
  • Challenge: Managing startup time, lock time, jitter, and power of PLLs.
  • Mitigation: Shared PLLs, power-aware clock trees, and post-silicon tuning.
 
